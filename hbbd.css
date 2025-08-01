@@ -1,0 +1,692 @@
+/* -- Google Fonts -- */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* -- Variables (Biến CSS để dễ quản lý màu sắc, etc.) -- */
+:root {
+    /* Màu Neon vẫn giữ để tạo điểm nhấn */
+    --color-pink-neon: #ff0077;
+    --color-orange-neon: #ff4500;
+    --color-purple-neon: #a855f7;
+    --color-blue-neon: #1e90ff;
+    --color-green-neon: #32cd32;
+    --color-yellow-neon: #ffcc00;
+
+    /* MÀU CHỦ ĐẠO KEM MỚI */
+    --bg-gradient-start: #f8f0e3; /* Kem nhạt */
+    --bg-gradient-middle: #e0d8c9; /* Be nhạt */
+    --bg-gradient-end: #c4b9aa;   /* Nâu nhạt hơn */
+    
+    --card-bg-light: rgba(255, 255, 255, 0.4); /* Thẻ trắng mờ hơn */
+    --card-border-light: rgba(255, 255, 255, 0.6); /* Viền sáng hơn */
+    --text-color-dark: #4b382d; /* Nâu đậm cho chữ */
+    --text-color-light: #f0f0f0; /* Giữ cho các phần tử sáng (ví dụ: confetti, particles) */
+    --signature-color: #6d5b4e; /* Màu cho chữ ký */
+}
+
+/* -- Reset & Global Styles -- */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Nền gradient mới với tông màu kem */
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end), var(--bg-gradient-middle));
+    background-size: 400% 400%; /* Kích thước lớn hơn để tạo hiệu ứng chuyển động */
+    animation: gradientShift 20s ease infinite; /* Animation chuyển động nền */
+    overflow: hidden;
+    position: relative;
+    color: var(--text-color-dark); /* Màu chữ chính */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+/* Keyframes cho nền gradient động */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* -- Particles.js Container -- */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* -- Confetti Container & Styles -- */
+#confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: var(--size, 10px);
+    height: var(--size, 10px);
+    background-color: var(--color, #fff);
+    opacity: 0;
+    animation: fallAndRotate var(--duration, 3s) var(--delay, 0s) linear forwards;
+    pointer-events: none;
+    border-radius: var(--border-radius, 0);
+    /* Hiệu ứng lấp lánh cho confetti */
+    box-shadow: 0 0 5px var(--color, #fff), 0 0 10px var(--color, #fff);
+}
+
+@keyframes fallAndRotate {
+    0% { transform: translate(0, -100px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { 
+        transform: translate(var(--translateX, 0), 100vh) rotate(var(--rotate, 720deg)); 
+        opacity: 0;
+    }
+}
+
+/* -- Falling Elements (Ngôi sao/Tuyết rơi) -- */
+#falling-elements-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1; /* Nằm dưới confetti nhưng trên nền */
+}
+
+.falling-element {
+    position: absolute;
+    color: #fff; /* Màu trắng cho tuyết/ngôi sao */
+    opacity: 0;
+    font-size: var(--size, 1em);
+    animation: fallAndFade var(--duration, 10s) linear infinite;
+    text-shadow: 0 0 5px rgba(255,255,255,0.7);
+}
+
+@keyframes fallAndFade {
+    0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(100vh) translateX(var(--drift, 0px)); opacity: 0; }
+}
+
+
+/* -- Background Decorative Shapes (Các hình nền trang trí nhỏ) -- */
+.background-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    opacity: 0.25; /* TĂNG ĐỘ HIỂN THỊ CỦA CÁC HÌNH TRANG TRÍ */
+    filter: blur(5px); /* LÀM MỜ NHIỀU HƠN */
+}
+
+.circle { border-radius: 50%; }
+.square {
+    /* Ví dụ đơn giản hóa, dùng màu cố định cho shadow */
+    box-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.3); /* Sáng hơn trên nền kem */
+}
+.triangle { width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 100px solid; }
+
+/* Màu sắc cho các hình - giữ màu sáng để nổi bật trên nền kem */
+.light-blue { background-color: #a3dae2; border-bottom-color: #a3dae2; } /* Xanh nhạt hơn */
+.pink { background-color: #ffb6c1; border-bottom-color: #ffb6c1; } /* Hồng nhạt hơn */
+.yellow { background-color: #ffe68a; border-bottom-color: #ffe68a; } /* Vàng nhạt hơn */
+.purple { background-color: #c79ff5; border-bottom-color: #c79ff5; } /* Tím nhạt hơn */
+.green { background-color: #8edc8e; border-bottom-color: #8edc8e; } /* Xanh lá nhạt hơn */
+.orange { background-color: #ffd18a; border-bottom-color: #ffd18a; } /* Cam nhạt hơn */
+
+
+/* Vị trí và animation cho từng hình */
+.anim-1 { top: 10%; left: 10%; width: 100px; height: 100px; animation: floatSpin 18s infinite linear; } /* Lớn hơn, chậm hơn */
+.anim-2 { bottom: 15%; left: 5%; width: 120px; height: 120px; animation: floatSpinReverse 22s infinite linear; } /* Lớn hơn, chậm hơn */
+.anim-3 { top: 5%; right: 20%; width: 80px; height: 80px; animation: floatSpin 16s infinite linear; }
+.anim-4 { bottom: 10%; right: 10%; width: 90px; height: 90px; animation: floatSpinReverse 20s infinite linear; }
+.anim-5 { top: 30%; left: 25%; width: 110px; height: 110px; animation: floatSpin 19s infinite linear; }
+.anim-6 { bottom: 5%; right: 25%; width: 130px; height: 130px; animation: floatSpinReverse 24s infinite linear; }
+
+@keyframes floatSpin {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(180deg); } /* DỊCH CHUYỂN NHIỀU HƠN */
+    100% { transform: translateY(0) rotate(360deg); }
+}
+
+@keyframes floatSpinReverse {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(40px) rotate(-180deg); } /* DỊCH CHUYỂN NHIỀU HƠN */
+    100% { transform: translateY(0) rotate(-360deg); }
+}
+
+
+/* -- Wrapper & Card -- */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 900px; /* Giữ nguyên max-width cho wrapper */
+    z-index: 2;
+    perspective: 1000px;
+}
+
+.card.glassmorphism-card {
+    background: rgba(255, 255, 255, 0.6); /* THẺ TRẮNG SÁNG, MỜ ẢO HƠN */
+    backdrop-filter: blur(30px); /* TĂNG ĐỘ MỜ */
+    -webkit-backdrop-filter: blur(30px);
+    border: 2px solid rgba(255, 255, 255, 0.8); /* VIỀN SÁNG RÕ HƠN */
+    border-radius: 20px; /* BO TRÒN VỪA PHẢI */
+    padding: 50px 40px; /* SỬA: Tăng padding để thẻ trông đầy đặn hơn */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(255, 255, 255, 0.5) inset; /* BÓNG ĐỔ NHẸ, THÊM SÁNG NỘI BỘ */
+    position: relative;
+    max-width: 750px; /* SỬA: TĂNG CHIỀU RỘNG TỐI ĐA CỦA THẺ để nó lớn hơn ở 100% */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color-dark);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    animation: none; /* BỎ ANIMATION VIỀN ĐA MÀU MẶC ĐỊNH ĐỂ PHÙ HỢP TÔNG KEM */
+}
+
+
+.card.glassmorphism-card:hover {
+    transform: translateY(-10px) rotateX(3deg) scale(1.02); /* HIỆU ỨNG MẠNH HƠN */
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4),
+                0 0 25px var(--color-yellow-neon),
+                0 0 50px var(--color-pink-neon); /* BÓNG ĐỔ MÀU KHI HOVER VẪN GIỮ ĐIỂM NHẤN */
+}
+
+/* -- Headings & Text -- */
+.birthday-heading {
+    font-family: 'Dancing Script', cursive;
+    font-size: 7.5em; /* SỬA: LỚN HƠN NỮA */
+    color: var(--color-pink-neon); /* GIỮ MÀU NEON NỔI BẬT */
+    margin-bottom: 8px;
+    font-weight: 700;
+    /* Hiệu ứng neon text */
+    text-shadow: 0 0 6px var(--color-orange-neon), /* SỬA: SHADOW MẠNH HƠN */
+                 0 0 12px var(--color-yellow-neon),
+                 0 0 20px var(--color-pink-neon),
+                 0 0 25px rgba(255, 255, 255, 0.6);
+    letter-spacing: 4px; /* TĂNG KHOẢNG CÁCH */
+    animation: textFlicker 1.5s infinite alternate; /* Hiệu ứng nhấp nháy chữ */
+}
+
+@keyframes textFlicker {
+    0%, 100% {
+        text-shadow: 0 0 6px var(--color-orange-neon), 0 0 12px var(--color-yellow-neon), 0 0 20px var(--color-pink-neon);
+    }
+    50% {
+        text-shadow: 0 0 10px var(--color-orange-neon), 0 0 22px var(--color-yellow-neon), 0 0 35px var(--color-pink-neon), 0 0 45px rgba(255, 255, 255, 0.8);
+    }
+}
+
+.celebrate-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em; /* SỬA: LỚN HƠN */
+    color: var(--text-color-dark); /* MÀU CHỮ TỐI */
+    margin-top: 0;
+    margin-bottom: 45px; /* KHOẢNG CÁCH LỚN HƠN */
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* SỬA: SHADOW RÕ HƠN */
+}
+
+.emoji.pulse {
+    display: inline-block;
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px var(--color-pink-neon)); }
+    100% { transform: scale(1.2); filter: drop-shadow(0 0 8px var(--color-blue-neon)); } /* Thêm hiệu ứng sáng cho emoji */
+}
+
+/* Ẩn lời chúc ban đầu */
+.hidden-message-area .birthday-message {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease-out, height 0.5s ease-out;
+    cursor: pointer; /* Để người dùng biết có thể tương tác */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4em;
+    line-height: 1.8;
+    margin-top: 25px;
+    margin-bottom: 40px;
+    color: var(--text-color-dark); /* MÀU CHỮ TỐI */
+    font-weight: 500;
+    min-height: 6em; /* Đảm bảo đủ không gian cho hiệu ứng gõ chữ */
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.2); /* NỀN NHẸ HƠN ĐỂ DỄ NHÌN KHI LÀ VÙNG TƯƠNG TÁC */
+    border-radius: 15px; /* BO TRÒN NHẸ */
+    padding: 15px 25px; /* TĂNG PADDING */
+    box-sizing: border-box;
+    display: flex; /* Để text căn giữa */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px dashed rgba(var(--text-color-dark), 0.5); /* VIỀN CHẤM CHO VÙNG ẨN */
+}
+.hidden-message-area .birthday-message:hover {
+    background: rgba(255, 255, 255, 0.3); /* SỬA: NỀN SÁNG HƠN KHI HOVER */
+}
+
+/* Hiện lời chúc khi class 'revealed' được thêm vào */
+.hidden-message-area.revealed .birthday-message {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    border: none; /* Bỏ viền khi đã hiện */
+}
+
+
+/* -- Profile Image -- */
+/* Sửa đổi để ảnh hiển thị đúng cách, lớn và vuông */
+.profile-image-link {
+    display: block; /* Quan trọng để link chiếm toàn bộ không gian ảnh */
+    text-decoration: none; /* Bỏ gạch chân mặc định của link */
+    margin-bottom: 20px; /* SỬA: Đặt margin-bottom ở đây để cách nút MUSIC! 20px */
+    transition: transform 0.3s ease-out; /* Thêm hiệu ứng hover cho link */
+}
+.profile-image-link:hover {
+    transform: translateY(-5px); /* Hiệu ứng nhẹ khi hover vào toàn bộ khối ảnh */
+}
+
+.profile-image-container {
+    width: 300px; /* SỬA: ĐẶT LẠI CHIỀU RỘNG CỐ ĐỊNH BAN ĐẦU (KHI CHƯA RESPONSIVE) */
+    height: 300px; /* SỬA: ĐẶT LẠI CHIỀU CAO CỐ ĐỊNH BAN ĐẦU */
+    max-width: 90%; /* SỬA: GIỚI HẠN TỐI ĐA KÍCH THƯỚC TRÊN MÀN HÌNH RỘNG */
+    max-height: 90vw; /* SỬA: THÊM GIỚI HẠN CHIỀU CAO THEO VIEWPORT WIDTH, ĐỂ TRÁNH QUÁ CAO TRÊN CÁC MÀN HÌNH NHỎ HƠN */
+    border-radius: 0; /* KHÔNG BO TRÒN */
+    overflow: hidden;
+    border: 10px solid var(--color-yellow-neon); /* VIỀN VẪN MÀU SÁNG NỔI BẬT */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); /* BÓNG ĐỔ MẠNH HƠN */
+    margin-bottom: 0; /* SỬA THÀNH 0 vì margin-bottom đã chuyển lên .profile-image-link */
+    position: relative;
+    transform: translateZ(40px); /* ĐẨY ẢNH RA PHÍA TRƯỚC NHIỀU HƠN */
+    animation: imageGlow 2.5s infinite alternate; /* HIỆU ỨNG SÁNG CHO ẢNH CHẬM HƠN */
+}
+
+@keyframes imageGlow {
+    0% { box-shadow: 0 0 20px var(--color-yellow-neon), 0 0 35px var(--color-orange-neon); }
+    100% { box-shadow: 0 0 25px var(--color-yellow-neon), 0 0 45px var(--color-pink-neon); }
+}
+
+/* Viền xoay nhiều màu cho ảnh - giữ nguyên để tạo điểm nhấn */
+.profile-image-container::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* SỬA: GIẢM KHOẢNG CÁCH CỦA VIỀN XOAY */
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 0; /* KHÔNG BO TRÒN CHO VIỀN XOAY */
+    background: conic-gradient(
+        var(--color-pink-neon) 0%, var(--color-orange-neon) 15%, var(--color-yellow-neon) 30%,
+        var(--color-green-neon) 45%, var(--color-blue-neon) 60%, var(--color-purple-neon) 75%,
+        var(--color-pink-neon) 100%
+    ); /* Gradient xoắn ốc nhiều màu */
+    z-index: -1;
+    animation: spin 10s linear infinite; /* CHẬM HƠN MỘT CHÚT */
+    filter: blur(10px); /* LÀM MỜ NHIỀU HƠN */
+    opacity: 0.9;
+}
+
+/* Đảm bảo hình ảnh bên trong không bị bo tròn */
+.profile-image {
+    width: 100%; /* SỬA: Đảm bảo ảnh chiếm 100% chiều rộng container */
+    height: 100%; /* SỬA: Đảm bảo ảnh chiếm 100% chiều cao container */
+    object-fit: cover; /* Giữ nguyên: Đảm bảo ảnh che phủ toàn bộ khu vực, cắt bớt nếu cần */
+    display: block;
+    border-radius: 0; /* KHÔNG BO TRÒN */
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05); /* SỬA: PHÓNG TO NHẸ KHI HOVER */
+}
+
+/* Hiệu ứng lấp lánh trên ảnh (Sparkle Overlay) */
+#cursor-sparkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Rất quan trọng để không chặn sự kiện click khác */
+    z-index: 9999; /* Luôn ở trên cùng */
+}
+
+.cursor-sparkle {
+    position: absolute;
+    background-color: var(--color, #fff); /* Màu ngẫu nhiên hoặc trắng */
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkleFadeOut var(--duration, 0.8s) ease-out forwards;
+    filter: drop-shadow(0 0 3px var(--color, #fff));
+}
+
+@keyframes sparkleFadeOut {
+    0% { transform: scale(0) translateY(0); opacity: 1; }
+    50% { transform: scale(1) translateY(-10px); opacity: 0.8; }
+    100% { transform: scale(0.5) translateY(-20px); opacity: 0; }
+}
+
+
+/* -- Decorative Icons (Các icon trang trí góc) -- */
+.decorative-icons {
+    position: absolute;
+    font-size: 5.8em; /* SỬA: LỚN HƠN */
+    color: var(--color-blue-neon); /* SỬA: ĐỔI MÀU ĐỂ NỔI BẬT TRÊN NỀN KEM/TRẮNG */
+    opacity: 0.8;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 0 8px var(--color-blue-neon)); /* SỬA: THÊM SÁNG */
+    cursor: pointer; /* Đảm bảo icon có thể click/hover */
+}
+
+.decorative-icons:hover {
+    transform: translateY(-10px) rotateX(25deg) scale(1.15); /* SỬA: HIỆU ỨNG MẠNH HƠN VÀ HƠI NGHIÊNG */
+    opacity: 1;
+    filter: drop-shadow(0 0 20px var(--color-purple-neon)); /* SỬA: SÁNG MẠNH HƠN KHI HOVER */
+}
+
+/* Hiệu ứng sáng nhấp nháy cho icon */
+.glowing-icon {
+    animation: iconGlow 2s infinite alternate;
+}
+
+@keyframes iconGlow {
+    0% { filter: drop-shadow(0 0 8px var(--color-blue-neon)); }
+    50% { filter: drop-shadow(0 0 15px var(--color-green-neon)); }
+    100% { filter: drop-shadow(0 0 8px var(--color-blue-neon)); }
+}
+
+/* Vị trí và Animation riêng cho từng icon */
+.top-left { top: 35px; left: 35px; } /* SỬA: Đẩy icon vào trong một chút nếu cần */
+.top-right { top: 35px; right: 35px; }
+.bottom-left { bottom: 35px; left: 35px; }
+.bottom-right { bottom: 35px; right: 35px; }
+
+.bounce { animation: bounce 4s infinite ease-in-out alternate; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } } /* SỬA: NẢY NHIỀU HƠN */
+
+.wobble { animation: wobble 5s infinite ease-in-out alternate; }
+@keyframes wobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); } /* SỬA: LẮC NHIỀU HƠN */
+    75% { transform: rotate(15deg); }
+}
+
+.swing { animation: swing 6s infinite ease-in-out alternate; }
+@keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(30deg); } /* SỬA: LẮC NHIỀU HƠN */
+    100% { transform: rotate(0deg); } /* Giữ nguyên, đã được điều chỉnh ở các phiên bản trước */
+}
+
+.spin { animation: spinFast 2.5s infinite linear; }
+@keyframes spinFast { to { transform: rotate(360deg); } }
+
+
+/* -- Music Button & Controls -- */
+.controls-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    margin-top: 20px; /* SỬA: GIẢM MARGIN TOP ĐỂ GẦN HÌNH HƠN */
+    position: relative;
+    z-index: 10;
+}
+
+.music-button {
+    background: linear-gradient(45deg, var(--color-pink-neon), var(--color-orange-neon));
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 18px 40px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    font-size: 1.6em; /* Giữ nguyên, đã điều chỉnh trước đó */
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 8px 25px rgba(255, 0, 119, 0.5); /* Giữ nguyên, đã điều chỉnh trước đó */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    font-weight: 700;
+    letter-spacing: 2px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.music-button:hover {
+    transform: translateY(-10px) scale(1.1); /* Giữ nguyên, đã điều chỉnh trước đó */
+    box-shadow: 0 10px 40px rgba(255, 0, 119, 0.8), /* Giữ nguyên, đã điều chỉnh trước đó */
+                0 0 25px var(--color-yellow-neon),
+                0 0 50px var(--color-blue-neon);
+}
+
+.music-button:active {
+    transform: translateY(-4px); /* Giữ nguyên, đã điều chỉnh trước đó */
+    box-shadow: 0 5px 20px rgba(255, 0, 119, 0.6);
+}
+
+/* Hiệu ứng neon cho nút */
+.neon-button {
+    animation: multiColorNeonButton 1.8s ease-in-out infinite alternate; /* Giữ nguyên, đã điều chỉnh trước đó */
+}
+
+@keyframes multiColorNeonButton {
+    0% {
+        box-shadow: 0 0 8px var(--color-pink-neon), 0 0 18px var(--color-orange-neon), 0 0 28px var(--color-purple-neon); /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    33% {
+        box-shadow: 0 0 12px var(--color-orange-neon), 0 0 25px var(--color-purple-neon), 0 0 38px var(--color-blue-neon); /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    66% {
+        box-shadow: 0 0 12px var(--color-purple-neon), 0 0 25px var(--color-blue-neon), 0 0 38px transparent; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    100% {
+        box-shadow: 0 0 8px var(--color-blue-neon), 0 0 18px var(--color-green-neon), 0 0 28px transparent; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+}
+
+.music-button i {
+    font-size: 1.5em; /* Giữ nguyên, đã điều chỉnh trước đó */
+}
+
+
+/* -- Signature (đã bị xóa khỏi HTML, nhưng giữ CSS này nếu muốn thêm lại sau này) -- */
+.message-signature {
+    margin-top: 50px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2em; /* Giữ nguyên, đã điều chỉnh trước đó */
+    color: var(--signature-color); /* Giữ nguyên, đã điều chỉnh trước đó */
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 12px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.2); /* Giữ nguyên, đã điều chỉnh trước đó */
+}
+
+.signature-line {
+    width: 120px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    height: 5px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    background: linear-gradient(90deg, transparent, var(--color-pink-neon), var(--color-blue-neon), transparent); /* Gradient nhiều màu */
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    animation: fadeIn 2s ease-out forwards;
+    animation-delay: 1.5s; /* Giữ nguyên, đã điều chỉnh trước đó */
+    opacity: 0;
+}
+
+/* -- Responsive -- */
+@media (max-width: 768px) {
+    .card.glassmorphism-card {
+        padding: 40px 30px; /* Giữ nguyên, đã điều chỉnh trước đó */
+        border-radius: 20px; /* Giữ nguyên, đã điều chỉnh trước đó */
+        max-width: 600px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    .birthday-heading {
+        font-size: 5em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        letter-spacing: 3px;
+    }
+    .celebrate-text {
+        font-size: 2em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        margin-bottom: 35px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    .hidden-message-area .birthday-message {
+        font-size: 1.2em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        min-height: 5.5em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        margin-bottom: 35px; /* Giữ nguyên, đã điều chỉnh trước đó */
+        padding: 12px 22px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    .profile-image-container {
+        width: 250px; /* Giữ nguyên, đã điều chỉnh trước đó */
+        height: 250px; /* Giữ nguyên, đã điều chỉnh trước đó */
+        max-width: 80%; /* Giữ nguyên, đã điều chỉnh trước đó */
+        max-height: 80vw; /* Giữ nguyên, đã điều chỉnh trước đó */
+        border-width: 8px;
+    }
+    .profile-image-container::before {
+        top: -12px;
+        left: -12px;
+        right: -12px;
+        bottom: -12px;
+        border-width: 10px;
+    }
+    .music-button {
+        font-size: 1.3em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        padding: 14px 32px;
+    }
+    .decorative-icons {
+        font-size: 4.5em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        top: 30px;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+    }
+    .message-signature {
+        font-size: 1.8em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        margin-top: 35px;
+    }
+    .signature-line {
+        width: 100px;
+        height: 4px;
+    }
+    .shape {
+        width: 80px !important;
+        height: 80px !important;
+        opacity: 0.2;
+    }
+    /* SỬA: ĐIỀU CHỈNH VỊ TRÍ CỦA CÁC SHAPE ĐỂ TRÁNH CHE NỘI DUNG */
+    .anim-1 { top: 7%; left: 7%; }
+    .anim-2 { bottom: 12%; left: 10%; }
+    .anim-3 { top: 8%; right: 15%; }
+    .anim-4 { bottom: 8%; right: 10%; }
+    .anim-5 { top: 25%; left: 20%; }
+    .anim-6 { bottom: 8%; right: 20%; }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px; /* Giữ nguyên */
+    }
+    .card.glassmorphism-card {
+        padding: 30px 20px; /* Giữ nguyên */
+        border-radius: 15px; /* Giữ nguyên */
+        max-width: 350px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    .birthday-heading {
+        font-size: 4.2em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        letter-spacing: 1.5px;
+    }
+    .celebrate-text {
+        font-size: 1.8em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        margin-bottom: 30px; /* Giữ nguyên, đã điều chỉnh trước đó */
+    }
+    .hidden-message-area .birthday-message {
+        font-size: 1em; /* Giữ nguyên */
+        line-height: 1.7; /* Giữ nguyên */
+        min-height: 4.5em; /* Giữ nguyên */
+        margin-bottom: 30px; /* Giữ nguyên */
+        padding: 10px 15px; /* Giữ nguyên */
+    }
+    .profile-image-container {
+        width: 180px; /* SỬA: Kích thước cố định cho màn hình này */
+        height: 180px; /* SỬA: Kích thước cố định */
+        max-width: 90%; /* Giữ nguyên, đã điều chỉnh trước đó */
+        max-height: 90vw; /* Giữ nguyên, đã điều chỉnh trước đó */
+        border-width: 6px;
+    }
+    .profile-image-container::before {
+        top: -9px;
+        left: -9px;
+        right: -9px;
+        bottom: -9px;
+        border-width: 8px;
+    }
+    .music-button {
+        font-size: 1.1em; /* Giữ nguyên */
+        padding: 12px 28px; /* Giữ nguyên */
+        gap: 10px; /* Giữ nguyên */
+        letter-spacing: 1.5px; /* Giữ nguyên */
+    }
+    .music-button i {
+        font-size: 1.3em; /* Giữ nguyên */
+    }
+    .decorative-icons {
+        font-size: 3.5em; /* Giữ nguyên, đã điều chỉnh trước đó */
+        top: 25px;
+        left: 25px;
+        right: 25px;
+        bottom: 25px;
+    }
+    .message-signature {
+        font-size: 1.5em; /* Giữ nguyên */
+        margin-top: 30px; /* Giữ nguyên */
+    }
+    .signature-line {
+        width: 100px;
+        height: 4px;
+    }
+    .shape {
+        width: 60px !important;
+        height: 60px !important;
+        opacity: 0.18; /* Giữ nguyên */
+    }
+    /* SỬA: ĐIỀU CHỈNH VỊ TRÍ CỦA CÁC SHAPE */
+    .anim-1 { top: 5%; left: 5%; }
+    .anim-2 { bottom: 8%; left: 12%; }
+    .anim-3 { top: 6%; right: 10%; }
+    .anim-4 { bottom: 6%; right: 12%; }
+    .anim-5 { top: 20%; left: 15%; }
+    .anim-6 { bottom: 6%; right: 15%; }
+}
